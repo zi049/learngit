@@ -1,3 +1,95 @@
+### <font style="color:rgb(51, 51, 51);">git 常用命令</font>
+![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737091078970-576d9df1-46b2-40db-a9ef-2719f6df9f7f.jpeg)
+
+```plain
+git init                                                  # 初始化本地git仓库（创建新仓库）
+git config --global user.name "xxx"                       # 配置用户名
+git config --global user.email "xxx@xxx.com"              # 配置邮件
+git config --global color.ui true                         # git status等命令自动着色
+git config --global color.status auto
+git config --global color.diff auto
+git config --global color.branch auto
+git config --global color.interactive auto
+git config --global --unset http.proxy                    # remove  proxy configuration on git
+git clone git+ssh://git@192.168.53.168/VT.git             # clone远程仓库
+git status                                                # 查看当前版本状态（是否修改）
+git add xyz                                               # 添加xyz文件至index
+git add .                                                 # 增加当前子目录下所有更改过的文件至index
+git commit -m 'xxx'                                       # 提交
+git commit --amend -m 'xxx'                               # 合并上一次提交（用于反复修改）
+git commit -am 'xxx'                                      # 将add和commit合为一步
+git rm xxx                                                # 删除index中的文件
+git rm -r *                                               # 递归删除
+git log                                                   # 显示提交日志
+git log -1                                                # 显示1行日志 -n为n行
+git log -5
+git log --stat                                            # 显示提交日志及相关变动文件
+git log -p -m
+git show dfb02e6e4f2f7b573337763e5c0013802e392818         # 显示某个提交的详细内容
+git show dfb02                                            # 可只用commitid的前几位
+git show HEAD                                             # 显示HEAD提交日志
+git show HEAD^                                            # 显示HEAD的父（上一个版本）的提交日志 ^^为上两个版本 ^5为上5个版本
+git tag                                                   # 显示已存在的tag
+git tag -a v2.0 -m 'xxx'                                  # 增加v2.0的tag
+git show v2.0                                             # 显示v2.0的日志及详细内容
+git log v2.0                                              # 显示v2.0的日志
+git diff                                                  # 显示所有未添加至index的变更
+git diff --cached                                         # 显示所有已添加index但还未commit的变更
+git diff HEAD^                                            # 比较与上一个版本的差异
+git diff HEAD -- ./lib                                    # 比较与HEAD版本lib目录的差异
+git diff origin/master..master                            # 比较远程分支master上有本地分支master上没有的
+git diff origin/master..master --stat                     # 只显示差异的文件，不显示具体内容
+git remote add origin git+ssh://git@192.168.53.168/VT.git # 增加远程定义（用于push/pull/fetch）
+git branch                                                # 显示本地分支
+git branch --contains 50089                               # 显示包含提交50089的分支
+git branch -a                                             # 显示所有分支
+git branch -r                                             # 显示所有原创分支
+git branch --merged                                       # 显示所有已合并到当前分支的分支
+git branch --no-merged                                    # 显示所有未合并到当前分支的分支
+git branch -m master master_copy                          # 本地分支改名
+git checkout -b master_copy                               # 从当前分支创建新分支master_copy并检出
+git checkout -b master master_copy                        # 上面的完整版
+git checkout features/performance                         # 检出已存在的features/performance分支
+git checkout --track hotfixes/BJVEP933                    # 检出远程分支hotfixes/BJVEP933并创建本地跟踪分支
+git checkout v2.0                                         # 检出版本v2.0
+git checkout -b devel origin/develop                      # 从远程分支develop创建新本地分支devel并检出
+git checkout -- README                                    # 检出head版本的README文件（可用于修改错误回退）
+git merge origin/master                                   # 合并远程master分支至当前分支
+git cherry-pick ff44785404a8e                             # 合并提交ff44785404a8e的修改
+git push origin master                                    # 将当前分支push到远程master分支
+git push origin :hotfixes/BJVEP933                        # 删除远程仓库的hotfixes/BJVEP933分支
+git push --tags                                           # 把所有tag推送到远程仓库
+git fetch                                                 # 获取所有远程分支（不更新本地分支，另需merge）
+git fetch --prune                                         # 获取所有原创分支并清除服务器上已删掉的分支
+git pull origin master                                    # 获取远程分支master并merge到当前分支
+git mv README README2                                     # 重命名文件README为README2
+git reset --hard HEAD                                     # 将当前版本重置为HEAD（通常用于merge失败回退）
+git rebase
+git branch -d hotfixes/BJVEP933                           # 删除分支hotfixes/BJVEP933（本分支修改已合并到其他分支）
+git branch -D hotfixes/BJVEP933                           # 强制删除分支hotfixes/BJVEP933
+git ls-files                                              # 列出git index包含的文件
+git show-branch                                           # 图示当前分支历史
+git show-branch --all                                     # 图示所有分支历史
+git whatchanged                                           # 显示提交历史对应的文件修改
+git revert dfb02e6e4f2f7b573337763e5c0013802e392818       # 撤销提交dfb02e6e4f2f7b573337763e5c0013802e392818
+git ls-tree HEAD                                          # 内部命令：显示某个git对象
+git rev-parse v2.0                                        # 内部命令：显示某个ref对于的SHA1 HASH
+git reflog                                                # 显示所有提交，包括孤立节点
+git show HEAD@{5}
+git show master@{yesterday}                               # 显示master分支昨天的状态
+git log --pretty=format:'%h %s' --graph                   # 图示提交日志
+git show HEAD~3
+git show -s --pretty=raw 2be7fcb476
+git stash                                                 # 暂存当前修改，将所有至为HEAD状态
+git stash list                                            # 查看所有暂存
+git stash show -p stash@{0}                               # 参考第一次暂存
+git stash apply stash@{0}                                 # 应用第一次暂存
+git grep "delete from"                                    # 文件中搜索文本“delete from”
+git grep -e '#define' --and -e SORT_DIRENT
+git gc
+git fsck
+```
+
 ### <font style="color:rgb(79, 79, 79);">Git 创建仓库</font>
 <font style="color:rgb(77, 77, 77);">创建一个git仓库有如下几种方式：</font>
 
@@ -6,7 +98,8 @@
 
 **<font style="color:rgb(77, 77, 77);">下面对这几种方式进行详细介绍：</font>**
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git init</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+#### <font style="color:rgba(0, 0, 0, 0.75);">git init</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">Git使用git init命令来初始化一个Git仓库，执行完git init命令后，会生成一个.git目录，该目录包含了资源数据，且只会在仓库的根目录生成。</font>
 
 <font style="color:rgb(77, 77, 77);">如果用当前目录作为Git仓库，则只需要执行如下命令：</font>
@@ -29,7 +122,8 @@ git init newDir
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089014098-38f3e6e2-1f72-4a3e-af1d-b8b6956a9333.jpeg)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">执行该命令之后，就可以在当前目录下生成newtest文件夹，并在改文件夹下生成.init文件夹。</font>
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git clone</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+#### <font style="color:rgba(0, 0, 0, 0.75);">git clone</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">使用git clone命令可以从Git仓库拷贝项目，类似于SVN中的 svn checkout，命令格式为：</font>
 
 ```plain
@@ -72,7 +166,8 @@ git clone https://github.com/schacon/grit.git      --HTTPS协议
 
 **<font style="color:rgb(77, 77, 77);">下面对这几个命令进行详细介绍：</font>**
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git config</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+#### <font style="color:rgba(0, 0, 0, 0.75);">git config</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">我们可以通过git config来配置用户名和邮箱地址，便于我们将代码提交到远程仓库，具体格式如下：</font>
 
 ```plain
@@ -80,7 +175,8 @@ git config --global user.name '你的用户名'
 git config --global user.email '你的邮箱'
 ```
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git add</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+#### <font style="color:rgba(0, 0, 0, 0.75);">git add</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git add 命令可将文件添加到缓存，如新项目中，添加所有文件很普遍，可以使用如下命令：</font>
 
 ```plain
@@ -94,8 +190,11 @@ it add *.java
 ```
 
 <font style="color:rgb(77, 77, 77);">如：我们可以创建两个文件，将它添加的缓存中，具体操作如下：  
-</font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089014095-e7774745-941f-4b33-b996-0ad58ead05b7.png)<font style="color:rgb(77, 77, 77);">  
-</font><font style="color:rgb(77, 77, 77);">3.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git status</font>**<font style="color:rgb(77, 77, 77);">  
+</font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089014095-e7774745-941f-4b33-b996-0ad58ead05b7.png)
+
+#### <font style="color:rgb(77, 77, 77);">  
+</font><font style="color:rgb(77, 77, 77);">git status</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">我们可以使用 git status 命令来查看相关文件的状态，直接执行如下命令：</font>
 
 ```plain
@@ -111,8 +210,11 @@ git status
 + <font style="color:rgba(0, 0, 0, 0.75);">将被修改的文件暂存并提交的命令：</font>**<font style="color:rgba(0, 0, 0, 0.75);">git commit -a</font>**
 
 <font style="color:rgb(77, 77, 77);">如果你对Git的各种状态比较熟悉了，也可以使用 git status -s 来查看简写的状态，这种简写的状态和SVN上的差不多 M - 被修改，A - 被添加，D - 被删除，R - 重命名，?? - 未被跟踪 等等。如果有修改的文件，则执行结果如下：  
-</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089014524-8e41d624-4c4a-4696-bb88-ff4191bd84a2.jpeg)<font style="color:rgb(77, 77, 77);">  
-</font><font style="color:rgb(77, 77, 77);">4.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git diff</font>**<font style="color:rgb(77, 77, 77);">  
+</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089014524-8e41d624-4c4a-4696-bb88-ff4191bd84a2.jpeg)
+
+#### <font style="color:rgb(77, 77, 77);">  
+</font><font style="color:rgb(77, 77, 77);">git diff</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">执行 git diff 来查看更新的详细信息，与git status不同的是，git status只显示更新的状态，而 git diff 可以显示已写入缓存与已修改但尚未写入缓存的改动的区别具体的详细信息。</font>
 
 + <font style="color:rgba(0, 0, 0, 0.75);">尚未缓存的改动：</font>**<font style="color:rgba(0, 0, 0, 0.75);">git diff</font>**
@@ -125,7 +227,10 @@ git status
 </font><font style="color:rgb(77, 77, 77);">之后我们将修改的内容add到缓存中，再使用git diff查看修改详细信息：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089014649-489ea67e-b764-4297-bdc6-c1fb25244ebb.png)
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git commit</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+
+
+#### <font style="color:rgba(0, 0, 0, 0.75);">git commit</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git commit 将缓存区内容添加到仓库中，可以在后面加-m选项，以在命令行中提供提交注释，格式如下：</font>
 
 ```plain
@@ -139,8 +244,11 @@ git commit -am "第一次版本提交"
 ```
 
 <font style="color:rgb(77, 77, 77);">如：我们可以创建一个文件，并将它添加打缓存，之后在提交，具体操作如下：  
-</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089014628-3c25b6cd-b776-4065-8a11-742e8b8a39f1.jpeg)<font style="color:rgb(77, 77, 77);">  
-</font><font style="color:rgb(77, 77, 77);">6.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git reset HEAD</font>**<font style="color:rgb(77, 77, 77);">  
+</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089014628-3c25b6cd-b776-4065-8a11-742e8b8a39f1.jpeg)
+
+#### <font style="color:rgb(77, 77, 77);">  
+</font><font style="color:rgb(77, 77, 77);">git reset HEAD</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">git reset HEAD 命令用于取消已缓存的内容，如我们要取消已提交的test.txt文件，可以如下使用：</font>
 
 ```plain
@@ -151,7 +259,7 @@ git reset HEAD test.txt
 </font><font style="color:rgb(77, 77, 77);">如：我们先修改test1.txt，test2.txt文件，之后再都添加到缓存，然后再使用git reset HEAD命令恢复test1.txt，最后再使用提交，具体操作如下：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089014975-7ccb85b0-6c5a-4ed8-b101-1e5b590562ea.png)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">可以看出，修改的test1文件经过git reset HEAD后，没有被提交上去。简而言之，执行 git reset HEAD 以取消之前 git add 添加。  
-</font><font style="color:rgb(77, 77, 77);">7.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git rm</font>**<font style="color:rgb(77, 77, 77);">  
+</font>**<font style="color:rgb(77, 77, 77);">git rm</font>**<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 Changes not staged for commit 的提示。要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除，然后提交。可以如下使用：</font>
 
 ```plain
@@ -179,7 +287,10 @@ git rm –r *
 <font style="color:rgb(77, 77, 77);">如：我们移除上面所创建的hello.java文件：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089015018-90868452-bd87-4392-9ce7-df21545976ce.jpeg)
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git mv</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+
+
+#### <font style="color:rgba(0, 0, 0, 0.75);">git mv</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git mv 命令用于移动或重命名一个文件、目录、软连接，如要将一个test.txt文件重命名为newtest.txt，则可以使用如下命令：</font>
 
 ```plain
@@ -200,7 +311,7 @@ git mv test.txt newtest.txt
 
 **<font style="color:rgb(77, 77, 77);">下面分别对这些命令进行详细介绍：</font>**
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git branch</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+**<font style="color:rgba(0, 0, 0, 0.75);">git branch</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git branch可以查看分支，也可以创建分支，如果没有参数时，git branch会列出你在本地的分支；如果有参数时，git branch就会创建改参数的分支。</font>
 
 <font style="color:rgb(77, 77, 77);">如果要查看分支，命令格式如下：</font>
@@ -221,7 +332,10 @@ git branch  branchname
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089015186-92bdd774-b09d-4f1e-bdaf-63902f37e0a8.jpeg)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">现在我们可以看到，多了一个新的分支test。而master分支在我们执行git init的时候，缺省情况下 Git 就会为你创建 master 分支。</font>
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git checkout (branchname)</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+<font style="color:rgb(77, 77, 77);"></font>
+
+#### <font style="color:rgba(0, 0, 0, 0.75);">git checkout (branchname)</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git checkout可以切换分支，命令格式如下：</font>
 
 ```plain
@@ -235,7 +349,10 @@ git checkout branchname
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089015580-0fb97212-fa3e-4fbc-b094-10948360770a.jpeg)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">可以看出，执行之前还在master分支中，执行之后，直接进入newtest分支了。</font>
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git merge</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+<font style="color:rgb(77, 77, 77);"></font>
+
+#### <font style="color:rgba(0, 0, 0, 0.75);">git merge</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git merge命令可以将任意分支合并到到当前分支中去，命令格式如下：</font>
 
 ```plain
@@ -256,7 +373,10 @@ git merge branchname
 </font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089016109-8912b926-36fb-44fc-bae2-c189f8fb0b72.png)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">到此一个简单的合并就完成了。实际项目开发中，合并比这要复杂的多，要结合具体的情况去操作。</font>
 
-+ **<font style="color:rgba(0, 0, 0, 0.75);">git branch -d (branchname)</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
+<font style="color:rgb(77, 77, 77);"></font>
+
+#### <font style="color:rgba(0, 0, 0, 0.75);">git branch -d (branchname)</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">git branch -d可以删除分支，删除分支命令格式如下：</font>
 
 ```plain
@@ -333,7 +453,8 @@ git tag -s <tagname> -m "某某标签"
 + **<font style="color:rgba(0, 0, 0, 0.75);">git push</font>**<font style="color:rgba(0, 0, 0, 0.75);">：推送到远程仓库</font>
 + **<font style="color:rgba(0, 0, 0, 0.75);">git remote rm</font>**<font style="color:rgba(0, 0, 0, 0.75);">：删除远程仓库</font>
 
-<font style="color:rgb(77, 77, 77);">1.</font>**<font style="color:rgb(77, 77, 77);">git remote add</font>**<font style="color:rgb(77, 77, 77);">  
+#### <font style="color:rgb(77, 77, 77);">git remote add</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">git remote add可以添加一个远程仓库，其命令格式如下：</font>
 
 ```plain
@@ -343,14 +464,17 @@ git remote add [alias] [url]
 <font style="color:rgb(77, 77, 77);">参数[alias]为别名， [url]为远程仓库的地址，如：我们可以将https://github.com/qtqt/test.git</font>
 
 <font style="color:rgb(77, 77, 77);">仓库添加到本地，并命名为test，操作如下：  
-</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089017462-50d4ad3f-28c4-47f2-a0b7-ab4873bab714.jpeg)<font style="color:rgb(77, 77, 77);">  
-</font><font style="color:rgb(77, 77, 77);">2.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git remote</font>**<font style="color:rgb(77, 77, 77);">  
+</font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089017462-50d4ad3f-28c4-47f2-a0b7-ab4873bab714.jpeg)
+
+#### <font style="color:rgb(77, 77, 77);">git remote</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">git remote可以查看当前有哪些远程仓库，执行结果如下：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089017564-47d5ed5b-8b5c-4451-b840-0b5f8aa182bc.jpeg)<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">可以看出，有上面添加的别名为test仓库。</font>
 
-1. **<font style="color:rgba(0, 0, 0, 0.75);">git fetch</font>**<font style="color:rgba(0, 0, 0, 0.75);">、</font>**<font style="color:rgba(0, 0, 0, 0.75);">git pull</font>**<font style="color:rgba(0, 0, 0, 0.75);">  
-</font>**<font style="color:rgba(0, 0, 0, 0.75);">git fetch</font>**<font style="color:rgba(0, 0, 0, 0.75);">可以提取远程仓库的数据，如果有多个远程仓库，我们可以在后面加仓库的别名，操作如下：  
+#### <font style="color:rgba(0, 0, 0, 0.75);">git fetch、git pull</font>
+<font style="color:rgba(0, 0, 0, 0.75);">  
+</font><font style="color:rgba(0, 0, 0, 0.75);">git fetch可以提取远程仓库的数据，如果有多个远程仓库，我们可以在后面加仓库的别名，操作如下：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/jpeg/42646381/1737089017569-c05f1929-ea04-4030-9358-d8c51874310b.jpeg)<font style="color:rgba(0, 0, 0, 0.75);">  
 </font><font style="color:rgba(0, 0, 0, 0.75);">该命令执行完后需要执行git merge 远程分支到你所在的分支。假设你配置好了一个远程仓库，并且你想要提取更新的数据，你可以首先执行 git fetch [alias] 告诉 Git 去获取它有你没有的数据，然后你可以执行 git merge [alias]/[branch] 以将服务器上的任何更新（假设有人这时候推送到服务器了）合并到你的当前分支。操作如下：  
 </font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089017576-926241b6-59b4-4e28-8eae-eaa127cf92c8.png)<font style="color:rgba(0, 0, 0, 0.75);">  
@@ -376,8 +500,10 @@ git push [alias] [branch]
 ```
 
 <font style="color:rgb(77, 77, 77);">如：我们可以将前面提交的文件push到远程仓库中：  
-</font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089018152-59538720-ebbd-4c24-85f8-55c9876279f9.png)<font style="color:rgb(77, 77, 77);">  
-</font><font style="color:rgb(77, 77, 77);">5.</font><font style="color:rgb(77, 77, 77);"> </font>**<font style="color:rgb(77, 77, 77);">git remote rm</font>**<font style="color:rgb(77, 77, 77);">  
+</font>![](https://cdn.nlark.com/yuque/0/2025/png/42646381/1737089018152-59538720-ebbd-4c24-85f8-55c9876279f9.png)
+
+#### <font style="color:rgb(77, 77, 77);">git remote rm</font>
+<font style="color:rgb(77, 77, 77);">  
 </font><font style="color:rgb(77, 77, 77);">git remote rm删除远程仓库，格式如下：</font>
 
 ```plain
