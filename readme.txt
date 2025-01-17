@@ -10,3 +10,6 @@ learn git by https://liaoxuefeng.com/books/git/introduction/index.html
 
 解决 ssh connect to host github.com port 22 Connection timed out
 https://www.cnblogs.com/weiweirui/p/17999855
+
+
+out git log " q "
